@@ -3,7 +3,6 @@ import styles from "@/styles/Dashboard.module.scss";
 import { userAtom } from "@/utils/atoms";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
-import { useToast } from "@chakra-ui/react";
 import { DashboardHeader } from "@/components";
 import { useToastMessage } from "@/utils/hooks";
 

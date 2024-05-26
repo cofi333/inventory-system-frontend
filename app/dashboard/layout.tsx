@@ -33,12 +33,14 @@ export default function DashboardLayout({ children }) {
 
     return (
         isLoggedIn && (
-            <PrimeReactProvider>
-                <div className={styles.dashboard_container}>
-                    <SideBar />
-                    <div className={styles.dashboard_main}>{children}</div>
-                </div>
-            </PrimeReactProvider>
+            <>
+                <PrimeReactProvider>
+                    <div className={styles.dashboard_container}>
+                        <SideBar />
+                        <div className={styles.dashboard_main}>{children}</div>
+                    </div>
+                </PrimeReactProvider>
+            </>
         )
     );
 }

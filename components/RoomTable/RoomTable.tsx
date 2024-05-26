@@ -9,7 +9,6 @@ import { ROOM_TABLE_COLUMNS } from "@/utils/constants";
 import data from "@/resources/MOCK_DATA.json";
 import { Tag } from "primereact/tag";
 import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
-import "primereact/resources/themes/mira/theme.css";
 import { InputText } from "primereact/inputtext";
 import { useToastMessage } from "@/utils/hooks";
 

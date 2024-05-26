@@ -1,5 +1,4 @@
 import "./ItemsTable.scss";
-import "primereact/resources/themes/mira/theme.css";
 import { useState } from "react";
 import { DataTableFilterMeta, DataTable } from "primereact/datatable";
 import { FilterMatchMode } from "primereact/api";
