@@ -6,7 +6,6 @@ export type TInputs = {
     name: string;
     type: string;
     placeholder: string | null;
-    multiple?: boolean;
 };
 
 export type TRegisterData = {
@@ -101,9 +100,10 @@ export type TProfileData = {
 };
 
 export type TPasswordProfileData = {
-    oldPassword: string;
-    newPassword: string;
+    old_password: string;
+    new_password: string;
     repeatNewPassword: string;
+    worker_id: number;
 };
 
 export type TItem = {

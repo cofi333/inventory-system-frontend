@@ -16,11 +16,12 @@ const FormPasswordInput = ({ input, errors, register }) => {
     const checkInputPassword =
         [
             "password",
-            "oldPassword",
+            "old_password",
             "repeatPassword",
             "newPassword",
+            "new_password",
             "repeatNewPassword",
-            "currentPassword",
+            "current_password",
         ].includes(input.name) && errors[input.name];
 
     return (

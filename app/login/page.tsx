@@ -3,10 +3,14 @@ import Image from "next/image";
 import styles from "@/styles/Login.module.scss";
 import { LoginImage } from "@/resources/images";
 import { Navigation, Footer, LoginForm } from "@/components";
+import Head from "next/head";
 
 const Login = () => {
     return (
         <>
+            <Head>
+                <title>Inventory management system</title>
+            </Head>
             <Navigation />
             <section className={`${styles.login} container`}>
                 <LoginForm />

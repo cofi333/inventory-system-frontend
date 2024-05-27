@@ -30,6 +30,7 @@ export const API_ENDPOINT: TApiEndpoints = {
     REGISTER: "Users/RegisterUser",
     FORGOT_PASSWORD: "Users/ResetPassword",
     FORGOT_PASSWORD_SEND_MAIL: "Users/SendPasswordResetEmail",
+    SET_NEW_PASSWORD: "Users/SetNewPassword",
 };
 
 export const REGISTER_INPUTS: TInputs[] = [
@@ -307,14 +308,11 @@ export const PROFILE_INFORMATION_SCHEMA = z.object({
     phoneNumber: z.string().regex(/^\+(?:\d\s?){10,14}\d$/, {
         message: "Phone number must start with a '+' symbol.",
     }),
-    company: z.array(z.string()).min(1, {
-        message: "At least one company must be selected.",
-    }),
 });
 
 export const PASSWORD_PROFILE_SCHEMA = z
     .object({
-        oldPassword: z
+        old_password: z
             .string()
             .regex(
                 /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
@@ -323,7 +321,7 @@ export const PASSWORD_PROFILE_SCHEMA = z
                         "Your password must contain minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.",
                 }
             ),
-        newPassword: z
+        new_password: z
             .string()
             .regex(
                 /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
@@ -342,7 +340,7 @@ export const PASSWORD_PROFILE_SCHEMA = z
                 }
             ),
     })
-    .refine((data) => data.newPassword === data.repeatNewPassword, {
+    .refine((data) => data.new_password === data.repeatNewPassword, {
         message: "Passwords don't match.",
         path: ["repeatNewPassword"],
     });
@@ -428,21 +426,20 @@ export const PROFILE_FORM_INPUTS: TInputs[] = [
         label: "Company",
         type: "select",
         placeholder: null,
-        multiple: true,
     },
 ];
 
 export const PROFILE_PASSWORD_INPUTS: TInputs[] = [
     {
         id: 1,
-        name: "oldPassword",
+        name: "old_password",
         label: "Current password",
         type: "password",
         placeholder: "Your current password",
     },
     {
         id: 2,
-        name: "newPassword",
+        name: "new_password",
         label: "New password",
         type: "password",
         placeholder: "Enter new password",
