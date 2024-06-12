@@ -8,14 +8,13 @@ const useUserProgress = () => {
     const [user, setUser] = useRecoilState(userAtom);
 
     const userStatus = {
-        image: user.picture === null ? 0 : 1,
-        information: 0,
+        image: user.picture ? 1 : 0,
+        information: user.phoneNumber && user.company ? 1 : 0,
     };
 
     useEffect(() => {
-        const progressOne = (userStatus.information / 4) * 50;
-        const ProgressTwo = userStatus.image * 100;
-        const finalProgress = progressOne + ProgressTwo / 2;
+        const finalProgress =
+            ((userStatus.image + userStatus.information) * 100) / 2;
         setProgress(finalProgress);
     }, [userStatus]);
 

@@ -93,10 +93,9 @@ export type TWorkbenchCard = {
 };
 
 export type TProfileData = {
-    fname: string;
-    lname: string;
-    phoneNumber: string;
-    company: string;
+    phone_number: string;
+    company_id: string;
+    worker_id: number;
 };
 
 export type TPasswordProfileData = {
@@ -147,4 +146,9 @@ export type TItems = {
 
 export type TApiEndpoints = {
     [key: string]: string;
+};
+
+export type TCompanies = {
+    company_id: string;
+    company_name: string;
 };

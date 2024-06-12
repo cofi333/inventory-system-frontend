@@ -31,6 +31,8 @@ export const API_ENDPOINT: TApiEndpoints = {
     FORGOT_PASSWORD: "Users/ResetPassword",
     FORGOT_PASSWORD_SEND_MAIL: "Users/SendPasswordResetEmail",
     SET_NEW_PASSWORD: "Users/SetNewPassword",
+    UPDATE_PROFILE_INFO: "Users/UpdateUser",
+    GET_USER_INFO: "Users/GetUserInfo",
 };
 
 export const REGISTER_INPUTS: TInputs[] = [
@@ -305,8 +307,11 @@ export const CHANGE_PASSWORD_SCHEMA = z
     });
 
 export const PROFILE_INFORMATION_SCHEMA = z.object({
-    phoneNumber: z.string().regex(/^\+(?:\d\s?){10,14}\d$/, {
+    phone_number: z.string().regex(/^\+(?:\d\s?){10,14}\d$/, {
         message: "Phone number must start with a '+' symbol.",
+    }),
+    company_id: z.string().refine((val) => val !== "0", {
+        message: "Please select a company",
     }),
 });
 
@@ -414,7 +419,7 @@ export const SIDEBAR_LINKS_WORKER: TSideBarLinks[] = [
 export const PROFILE_FORM_INPUTS: TInputs[] = [
     {
         id: 1,
-        name: "phoneNumber",
+        name: "phone_number",
         label: "Phone number",
         type: "text",
         placeholder: "Your phone number",
@@ -422,7 +427,7 @@ export const PROFILE_FORM_INPUTS: TInputs[] = [
 
     {
         id: 2,
-        name: "company",
+        name: "company_id",
         label: "Company",
         type: "select",
         placeholder: null,

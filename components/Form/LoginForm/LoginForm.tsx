@@ -65,7 +65,6 @@ const LoginForm = () => {
 
             switch (response.data.status) {
                 case 200:
-                    setIsLoading(true);
                     const userInformations = {
                         userId: response.data.userId,
                         fullName: response.data.userFullName,

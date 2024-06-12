@@ -3,25 +3,67 @@ import { FormInput, FormSubmit } from "@/components";
 import {
     PROFILE_FORM_INPUTS,
     PROFILE_INFORMATION_SCHEMA,
+    API_ENDPOINT,
 } from "@/utils/constants";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TProfileData } from "@/utils/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
+import { useToastMessage } from "@/utils/hooks";
+import axiosInstance from "@/utils/axiosInstance";
+import { useRecoilState } from "recoil";
+import { userAtom } from "@/utils/atoms";
 
 const ProfileForm = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const showToast = useToastMessage();
+    const [user, setUser] = useRecoilState(userAtom);
 
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors },
     } = useForm<TProfileData>({
         resolver: zodResolver(PROFILE_INFORMATION_SCHEMA),
+        defaultValues: {
+            phone_number: user.phoneNumber,
+            company_id: user.company,
+        },
     });
 
-    const onSubmit = () => {};
+    const onSubmit: SubmitHandler<TProfileData> = async (data) => {
+        data.worker_id = user.userId;
+
+        try {
+            setIsLoading(true);
+            const response = await axiosInstance.post(
+                `${process.env.BASE_URL}${API_ENDPOINT.UPDATE_PROFILE_INFO}`,
+                data,
+                {
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                }
+            );
+
+            switch (response.data.status) {
+                case 200:
+                    showToast("success", response.data.description);
+                    setIsLoading(false);
+                    break;
+            }
+        } catch (error) {
+            console.log(error);
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        setValue("phone_number", user.phoneNumber);
+        setValue("company_id", user.company);
+    }, [user, setValue]);
 
     return (
         <div className={styles.profile_form}>
@@ -33,15 +75,17 @@ const ProfileForm = () => {
                     onSubmit={handleSubmit(onSubmit)}
                     className={styles.profile_form_body_form}
                 >
-                    {PROFILE_FORM_INPUTS.map((input) => (
-                        <div key={input.id}>
-                            <FormInput
-                                input={input}
-                                errors={errors}
-                                register={register}
-                            />
-                        </div>
-                    ))}
+                    <div>
+                        {PROFILE_FORM_INPUTS.map((input) => (
+                            <div key={input.id}>
+                                <FormInput
+                                    input={input}
+                                    errors={errors}
+                                    register={register}
+                                />
+                            </div>
+                        ))}
+                    </div>
                     <FormSubmit isLoading={isLoading} value="Update" />
                 </Form>
             </div>

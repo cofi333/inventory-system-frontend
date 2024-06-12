@@ -3,9 +3,13 @@ import styles from "./FormInput.module.scss";
 import Image from "next/image";
 import { Tooltip, useDisclosure } from "@chakra-ui/react";
 import { ErrorIcon } from "@/resources/icons";
+import { useRecoilState } from "recoil";
+import { compainesAtom, userAtom } from "@/utils/atoms";
 
 const FormSelectInput = ({ input, register, errors }) => {
     const { isOpen, onOpen, onToggle, onClose } = useDisclosure();
+    const [user, setUser] = useRecoilState(userAtom);
+    const [companies, setCompanies] = useRecoilState(compainesAtom);
     return (
         <Form.Group
             className="mb-3"
@@ -18,13 +22,17 @@ const FormSelectInput = ({ input, register, errors }) => {
                     {...register(input.name)}
                     multiple={input.multiple ? true : false}
                 >
-                    <option>Company one</option>
-                    <option>Company two</option>
-                    <option>Company three</option>
+                    <option value="0">Select a company</option>
+                    {companies.map((option) => (
+                        <option
+                            value={option.company_id}
+                            defaultChecked={option.company_id === user.company}
+                        >
+                            {option.company_name}
+                        </option>
+                    ))}
                 </Form.Select>
-                <div
-                    className={`${styles.input_error} ${styles.input_error_select}`}
-                >
+                <div className={styles.input_error}>
                     {errors[input.name] && (
                         <Tooltip
                             label={errors[input.name].message}
