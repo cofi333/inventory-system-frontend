@@ -14,8 +14,9 @@ import { useToastMessage } from "@/utils/hooks";
 import axiosInstance from "@/utils/axiosInstance";
 import { useRecoilState } from "recoil";
 import { userAtom } from "@/utils/atoms";
+import { Skeleton } from "@chakra-ui/react";
 
-const ProfileForm = () => {
+const ProfileForm = ({ isLoadingData }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const showToast = useToastMessage();
     const [user, setUser] = useRecoilState(userAtom);
@@ -78,15 +79,33 @@ const ProfileForm = () => {
                     <div>
                         {PROFILE_FORM_INPUTS.map((input) => (
                             <div key={input.id}>
-                                <FormInput
-                                    input={input}
-                                    errors={errors}
-                                    register={register}
-                                />
+                                {isLoadingData ? (
+                                    <Skeleton
+                                        height="38px"
+                                        marginBottom="20px"
+                                        borderRadius="6px"
+                                    />
+                                ) : (
+                                    <>
+                                        <FormInput
+                                            input={input}
+                                            errors={errors}
+                                            register={register}
+                                        />
+                                    </>
+                                )}
                             </div>
                         ))}
                     </div>
-                    <FormSubmit isLoading={isLoading} value="Update" />
+                    {isLoadingData ? (
+                        <Skeleton
+                            width="80px"
+                            height="38px"
+                            borderRadius="6px"
+                        />
+                    ) : (
+                        <FormSubmit isLoading={isLoading} value="Update" />
+                    )}
                 </Form>
             </div>
         </div>

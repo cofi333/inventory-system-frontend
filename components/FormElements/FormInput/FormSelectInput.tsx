@@ -27,6 +27,7 @@ const FormSelectInput = ({ input, register, errors }) => {
                         <option
                             value={option.company_id}
                             defaultChecked={option.company_id === user.company}
+                            key={option.company_id}
                         >
                             {option.company_name}
                         </option>
