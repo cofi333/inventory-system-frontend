@@ -20,15 +20,11 @@ const FormSelectInput = ({ input, register, errors }) => {
             <div className={styles.input}>
                 <Form.Select
                     {...register(input.name)}
-                    multiple={input.multiple ? true : false}
+                    defaultValue={user.company}
                 >
                     <option value="0">Select a company</option>
                     {companies.map((option) => (
-                        <option
-                            value={option.company_id}
-                            defaultChecked={option.company_id === user.company}
-                            key={option.company_id}
-                        >
+                        <option value={option.company_id}>
                             {option.company_name}
                         </option>
                     ))}

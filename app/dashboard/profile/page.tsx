@@ -19,37 +19,36 @@ const page = () => {
     const [companies, setCompanies] = useRecoilState(compainesAtom);
     const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
 
-    const getUserInfo = async () => {
-        try {
-            setIsLoadingData(true);
-            const response = await axiosInstance.get(
-                `${process.env.BASE_URL}${API_ENDPOINT.GET_USER_INFO}/${user.userId}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${user.token}`,
-                    },
-                }
-            );
-
-            switch (response.data.status) {
-                case 200:
-                    setUser((prev) => ({
-                        ...prev,
-                        company: String(response.data.userInfo.company_id),
-                        phoneNumber: response.data.userInfo.phone_number,
-                    }));
-                    setCompanies(response.data.companies);
-                    setIsLoadingData(false);
-                    break;
-                default:
-                    setIsLoadingData(false);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     useEffect(() => {
+        const getUserInfo = async () => {
+            try {
+                setIsLoadingData(true);
+                const response = await axiosInstance.get(
+                    `${process.env.BASE_URL}${API_ENDPOINT.GET_USER_INFO}/${user.userId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${user.token}`,
+                        },
+                    }
+                );
+
+                switch (response.data.status) {
+                    case 200:
+                        setUser((prev) => ({
+                            ...prev,
+                            company: String(response.data.userInfo.company_id),
+                            phoneNumber: response.data.userInfo.phone_number,
+                        }));
+                        setCompanies(response.data.companies);
+                        setIsLoadingData(false);
+                        break;
+                    default:
+                        setIsLoadingData(false);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
         getUserInfo();
     }, []);
 

@@ -30,7 +30,7 @@ const ProfileForm = ({ isLoadingData }) => {
         resolver: zodResolver(PROFILE_INFORMATION_SCHEMA),
         defaultValues: {
             phone_number: user.phoneNumber,
-            company_id: user.company,
+            company_id: user.company || "0",
         },
     });
 
@@ -63,7 +63,7 @@ const ProfileForm = ({ isLoadingData }) => {
 
     useEffect(() => {
         setValue("phone_number", user.phoneNumber);
-        setValue("company_id", user.company);
+        setValue("company_id", user.company || "0");
     }, [user, setValue]);
 
     return (
