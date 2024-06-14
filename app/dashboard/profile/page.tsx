@@ -36,7 +36,7 @@ const page = () => {
                     case 200:
                         setUser((prev) => ({
                             ...prev,
-                            company: String(response.data.userInfo.company_id),
+                            company: response.data.userInfo.company_id,
                             phoneNumber: response.data.userInfo.phone_number,
                         }));
                         setCompanies(response.data.companies);

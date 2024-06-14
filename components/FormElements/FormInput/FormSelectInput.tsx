@@ -10,6 +10,7 @@ const FormSelectInput = ({ input, register, errors }) => {
     const { isOpen, onOpen, onToggle, onClose } = useDisclosure();
     const [user, setUser] = useRecoilState(userAtom);
     const [companies, setCompanies] = useRecoilState(compainesAtom);
+
     return (
         <Form.Group
             className="mb-3"
@@ -18,10 +19,7 @@ const FormSelectInput = ({ input, register, errors }) => {
         >
             <Form.Label>{input.label}</Form.Label>
             <div className={styles.input}>
-                <Form.Select
-                    {...register(input.name)}
-                    defaultValue={user.company}
-                >
+                <Form.Select {...register(input.name)}>
                     <option value="0">Select a company</option>
                     {companies.map((option) => (
                         <option value={option.company_id}>

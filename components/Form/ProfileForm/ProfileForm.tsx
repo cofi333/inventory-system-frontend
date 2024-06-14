@@ -52,6 +52,11 @@ const ProfileForm = ({ isLoadingData }) => {
             switch (response.data.status) {
                 case 200:
                     showToast("success", response.data.description);
+                    setUser((prev) => ({
+                        ...prev,
+                        phoneNumber: data.phone_number,
+                        company: data.company_id,
+                    }));
                     setIsLoading(false);
                     break;
             }
@@ -63,7 +68,7 @@ const ProfileForm = ({ isLoadingData }) => {
 
     useEffect(() => {
         setValue("phone_number", user.phoneNumber);
-        setValue("company_id", user.company || "0");
+        setValue("company_id", user.company?.toString() || "0");
     }, [user, setValue]);
 
     return (
