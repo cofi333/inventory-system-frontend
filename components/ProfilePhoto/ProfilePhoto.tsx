@@ -3,7 +3,7 @@ import { UserIcon, PlusIcon } from "@/resources/icons";
 import { useRecoilState } from "recoil";
 import { userAtom } from "@/utils/atoms";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Form } from "react-bootstrap";
 import { MAX_PROFILE_IMAGE_SIZE, VALID_IMAGE_TYPES } from "@/utils/constants";
 import { useToastMessage } from "@/utils/hooks";
@@ -16,11 +16,12 @@ const ProfilePhoto = () => {
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const [error, setError] = useState<boolean>(false);
     const showToast = useToastMessage();
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
 
-        if (!VALID_IMAGE_TYPES.includes(file.type)) {
+        if (!VALID_IMAGE_TYPES.includes(file?.type)) {
             showToast("error", "Invalid file type. Please upload an image.");
             e.target.value = null;
             setError(true);
@@ -43,6 +44,9 @@ const ProfilePhoto = () => {
 
     const removeImagePreview = () => {
         setPreviewImage(null);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+        }
     };
 
     return (
@@ -72,6 +76,7 @@ const ProfilePhoto = () => {
                             id="uploadImage"
                             hidden
                             onChange={handleImageChange}
+                            ref={fileInputRef}
                             accept="image/jpeg, image/png"
                         />
                     </div>
