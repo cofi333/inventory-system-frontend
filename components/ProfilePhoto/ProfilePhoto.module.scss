@@ -11,9 +11,21 @@
     box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 5px;
     padding: 15px;
 
+    &_form {
+        display: flex;
+        gap: 15px;
+
+        @media only screen and (max-width: 576px) {
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    }
+
     &_picture {
         position: relative;
         width: fit-content;
+        gap: 10px;
 
         img {
             border-radius: 100%;
@@ -22,7 +34,7 @@
         &_add {
             display: flex;
             position: absolute;
-            right: 15px;
+            left: 110px;
             bottom: 10px;
             z-index: 10;
             label {
@@ -35,10 +47,35 @@
 
             @media only screen and (max-width: 1350px) {
                 bottom: 0;
+                left: 75px;
             }
 
             @media only screen and (max-width: 576px) {
-                right: 8px;
+                left: 65px;
+            }
+        }
+    }
+
+    &_buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+
+        button {
+            font-size: 0.7rem;
+        }
+
+        button[type="reset"] {
+            height: fit-content;
+            margin-top: 10px;
+            background-color: #edf2f7;
+            color: #1a202c;
+
+            &:hover,
+            &:focus {
+                background-color: #edf2f7 !important;
+                opacity: 0.8;
             }
         }
     }
@@ -48,6 +85,9 @@
     }
 
     &_information {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         p {
             margin: 0;
         }
@@ -77,22 +117,19 @@
         padding: 30px 15px;
         flex-direction: column;
     }
-
-    @media only screen and (max-width: 1024px) {
-    }
 }
 
 .picture {
-    max-width: 150px;
-    max-height: 150px;
+    width: 150px;
+    height: 150px;
 
     @media only screen and (max-width: 1350px) {
-        max-width: 110px;
-        max-height: 110px;
+        width: 110px;
+        height: 110px;
     }
 
     @media only screen and (max-width: 576px) {
-        max-width: 100px;
-        max-height: 100px;
+        width: 100px;
+        height: 100px;
     }
 }

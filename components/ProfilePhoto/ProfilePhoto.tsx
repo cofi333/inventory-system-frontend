@@ -7,6 +7,8 @@ import { useState } from "react";
 import { Form } from "react-bootstrap";
 import { MAX_PROFILE_IMAGE_SIZE, VALID_IMAGE_TYPES } from "@/utils/constants";
 import { useToastMessage } from "@/utils/hooks";
+import { FormSubmit } from "@/components";
+import { Button } from "react-bootstrap";
 
 const ProfilePhoto = () => {
     const [user, setUser] = useRecoilState(userAtom);
@@ -39,20 +41,23 @@ const ProfilePhoto = () => {
         setPreviewImage(URL.createObjectURL(e.target.files[0]));
     };
 
+    const removeImagePreview = () => {
+        setPreviewImage(null);
+    };
+
     return (
         <div
             className={`${styles.profile} ${error ? styles.profile_error : ""}`}
         >
-            <div className={styles.profile_picture}>
-                <Image
-                    src={previewImage ?? user.picture ?? UserIcon}
-                    width={150}
-                    height={150}
-                    alt="User picture"
-                    className={styles.picture}
-                />
-
-                <Form>
+            <Form className={styles.profile_form}>
+                <div className={styles.profile_picture}>
+                    <Image
+                        src={previewImage ?? user.picture ?? UserIcon}
+                        width={150}
+                        height={150}
+                        alt="User picture"
+                        className={styles.picture}
+                    />
                     <div className={styles.profile_picture_add}>
                         <label htmlFor="uploadImage">
                             <Image
@@ -70,15 +75,25 @@ const ProfilePhoto = () => {
                             accept="image/jpeg, image/png"
                         />
                     </div>
-                </Form>
-            </div>
+                </div>
+                <div className={styles.profile_information}>
+                    <p className={styles.profile_information_name}>
+                        {user.fullName}
+                    </p>
+                    <p className={styles.profile_information_email}>
+                        {user.email}
+                    </p>
 
-            <div className={styles.profile_information}>
-                <p className={styles.profile_information_name}>
-                    {user.fullName}
-                </p>
-                <p className={styles.profile_information_email}>{user.email}</p>
-            </div>
+                    {previewImage && (
+                        <div className={styles.profile_buttons}>
+                            <Button type="reset" onClick={removeImagePreview}>
+                                Cancel
+                            </Button>
+                            <FormSubmit value="Upload" isLoading={false} />
+                        </div>
+                    )}
+                </div>
+            </Form>
         </div>
     );
 };
