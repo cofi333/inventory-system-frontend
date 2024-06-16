@@ -2,23 +2,22 @@ import "./RoomTable.scss";
 import { DataTable, DataTableFilterMeta } from "primereact/datatable";
 import { Column, ColumnEditorOptions } from "primereact/column";
 import { useState } from "react";
-import { TRooms } from "@/utils/types";
 import { FilterMatchMode } from "primereact/api";
-import RoomTableHeader from "./RoomTableHeader";
-import { ROOM_TABLE_COLUMNS } from "@/utils/constants";
-import data from "@/resources/MOCK_DATA.json";
 import { Tag } from "primereact/tag";
 import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { useToastMessage } from "@/utils/hooks";
+import { QRCodeGenerateIcon } from "@/resources/icons";
+import Image from "next/image";
+import { TableHeader } from "./TableHeader";
 
-const RoomTable = () => {
-    const [rooms, setRooms] = useState<TRooms[]>(data);
+const CrudTable = ({ columns, type, dataAPI }) => {
+    const [data, setData] = useState(dataAPI);
     const [filters, setFilters] = useState<DataTableFilterMeta>({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
     const [globalFilterValue, setGlobalFilterValue] = useState<string>("");
-    const [selectedRooms, setSelectedRooms] = useState<TRooms[] | null>(null);
+    const [selectedData, setSelectedData] = useState(null);
     const [statuses] = useState<string[]>(["Active", "Inactive"]);
     const showToast = useToastMessage();
 
@@ -46,6 +45,19 @@ const RoomTable = () => {
                     return <Tag value={option}></Tag>;
                 }}
             />
+        );
+    };
+
+    const generateQRTemplate = () => {
+        return (
+            <div className="qr-code-template">
+                <Image
+                    src={QRCodeGenerateIcon}
+                    width={24}
+                    height={24}
+                    alt="Qr code icon"
+                />
+            </div>
         );
     };
 
@@ -92,23 +104,24 @@ const RoomTable = () => {
     return (
         <div className="card">
             <DataTable
-                value={rooms}
+                value={data}
                 showGridlines
                 filters={filters}
                 header={
-                    <RoomTableHeader
+                    <TableHeader
                         globalFilterValue={globalFilterValue}
                         onGlobalFilterChange={onGlobalFilterChange}
-                        selectedRooms={selectedRooms}
+                        selectedData={selectedData}
+                        type={type}
                     />
                 }
-                emptyMessage="No rooms found."
+                emptyMessage={`No ${type} found.`}
                 paginator
                 rows={10}
                 editMode="row"
                 onRowEditComplete={onSubmit}
-                selection={selectedRooms!}
-                onSelectionChange={(e) => setSelectedRooms(e.value)}
+                selection={selectedData!}
+                onSelectionChange={(e) => setSelectedData(e.value)}
                 selectionMode="multiple"
                 rowEditValidator={rowEditValidator}
             >
@@ -116,7 +129,7 @@ const RoomTable = () => {
                     selectionMode="multiple"
                     headerStyle={{ width: "3rem" }}
                 ></Column>
-                {ROOM_TABLE_COLUMNS.map((column) => (
+                {columns.map((column) => (
                     <Column
                         field={column.field}
                         header={column.header}
@@ -125,18 +138,26 @@ const RoomTable = () => {
                         key={column.id}
                     />
                 ))}
-                <Column
-                    field="roomInventoryActive"
-                    header="Inventory status"
-                    editor={(options) => statusEditor(options)}
-                    body={(rowData) =>
-                        rowData.roomInventoryActive ? "Active" : "Inactive"
-                    }
-                />
+
+                {type === "rooms" && (
+                    <Column
+                        field="roomInventoryActive"
+                        header="Inventory status"
+                        editor={(options) => statusEditor(options)}
+                        body={(rowData) =>
+                            rowData.roomInventoryActive ? "Active" : "Inactive"
+                        }
+                    />
+                )}
+
+                {type === "items" && (
+                    <Column body={generateQRTemplate}></Column>
+                )}
+
                 <Column rowEditor></Column>
             </DataTable>
         </div>
     );
 };
 
-export default RoomTable;
+export default CrudTable;

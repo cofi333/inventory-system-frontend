@@ -22,6 +22,11 @@ export type TLoginData = {
     password: string;
 };
 
+export type TAdminLoginData = {
+    admin_username: string;
+    admin_password: string;
+};
+
 export type TForgotPasswordData = {
     newPassword: string;
     repeatNewPassword: string;

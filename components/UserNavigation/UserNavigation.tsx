@@ -37,17 +37,20 @@ const UserNavigation = () => {
                 </div>
             </MenuButton>
             <MenuList>
-                <Link href="/dashboard/profile">
-                    <MenuItem>
-                        <Image
-                            src={UserIcon}
-                            alt="User icon"
-                            width={20}
-                            height={20}
-                        />
-                        My Profile
-                    </MenuItem>
-                </Link>
+                {["worker", "employer"].includes(user.role) && (
+                    <Link href="/dashboard/profile">
+                        <MenuItem>
+                            <Image
+                                src={UserIcon}
+                                alt="User icon"
+                                width={20}
+                                height={20}
+                            />
+                            My Profile
+                        </MenuItem>
+                    </Link>
+                )}
+
                 <MenuItem>
                     <Logout />
                 </MenuItem>

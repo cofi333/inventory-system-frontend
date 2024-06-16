@@ -9,15 +9,15 @@ import {
     Button,
 } from "@chakra-ui/react";
 
-const DeleteRoomsModal = ({ deleteItemIsOpen, onDeleteItemClose }) => {
+const DeleteRowModal = ({ deleteItemIsOpen, onDeleteItemClose, type }) => {
     return (
         <Modal isOpen={deleteItemIsOpen} onClose={onDeleteItemClose}>
             <ModalOverlay />
             <ModalContent>
-                <ModalHeader> Delete selected items</ModalHeader>
+                <ModalHeader> Delete selected {type}</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                    Are you sure you want to delete selected items?
+                    Are you sure you want to delete selected {type}?
                 </ModalBody>
 
                 <ModalFooter>
@@ -35,4 +35,4 @@ const DeleteRoomsModal = ({ deleteItemIsOpen, onDeleteItemClose }) => {
     );
 };
 
-export default DeleteRoomsModal;
+export default DeleteRowModal;

@@ -10,6 +10,8 @@ const Dashboard = () => {
     const [user, setUser] = useRecoilState(userAtom);
     const showToast = useToastMessage();
 
+    console.log(user);
+
     useEffect(() => {
         if (user.approveLogin) {
             showToast("success", "You have successfuly logged in.");

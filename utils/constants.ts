@@ -21,6 +21,9 @@ import {
     ArchiveIcon,
     TodoIcon,
     RoomIcon,
+    CompanyIcon,
+    UserIcon,
+    UserWhiteIcon,
 } from "@/resources/icons";
 import { z } from "zod";
 import { SliderImage1, SliderImage2 } from "@/resources/images";
@@ -33,6 +36,8 @@ export const API_ENDPOINT: TApiEndpoints = {
     SET_NEW_PASSWORD: "Users/SetNewPassword",
     UPDATE_PROFILE_INFO: "Users/UpdateUser",
     GET_USER_INFO: "Users/GetUserInfo",
+    ADMIN_LOGIN: "Admins/LoginAdmin",
+    GET_ALL_COMPANIES: "Admins/GetAllCompanies",
 };
 
 export const REGISTER_INPUTS: TInputs[] = [
@@ -477,6 +482,30 @@ export const ROOM_TABLE_COLUMNS: TTableColumns[] = [
     },
 ];
 
+export const COMPANY_TABLE_COLUMNS: TTableColumns[] = [
+    {
+        id: 1,
+        field: "company_name",
+        header: "Name",
+        sortable: true,
+    },
+    {
+        id: 2,
+        field: "company_mail",
+        header: "Email",
+    },
+    {
+        id: 3,
+        field: "company_state",
+        header: "State",
+    },
+    {
+        id: 4,
+        field: "company_address",
+        header: "Address",
+    },
+];
+
 export const ADD_ROOM_FORM_INPUTS: TAddRoomsInputs[] = [
     {
         id: 1,
@@ -524,3 +553,25 @@ export const ITEM_TABLE_COLUMNS: TTableColumns[] = [
 
 export const MAX_PROFILE_IMAGE_SIZE: number = 2 * 1204 * 1024;
 export const VALID_IMAGE_TYPES: string[] = ["image/jpeg", "image/png"];
+
+export const SIDEBAR_LINKS_ADMIN: TSideBarLinks[] = [
+    {
+        id: 1,
+        link: "/dashboard",
+        label: "Dashboard",
+        icon: DashboardIcon,
+    },
+    {
+        id: 2,
+        link: "/dashboard/companies",
+        label: "Companies",
+        icon: CompanyIcon,
+    },
+
+    {
+        id: 3,
+        link: "/dashboard/users",
+        label: "Users",
+        icon: TeamIcon,
+    },
+];

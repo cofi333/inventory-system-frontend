@@ -1,36 +1,50 @@
-import { PlusIconSecond, DeleteIcon } from "@/resources/icons";
-import { ButtonIcon } from "@/components";
-import { useDisclosure, Button } from "@chakra-ui/react";
+import "primeicons/primeicons.css";
 import { InputText } from "primereact/inputtext";
+import { useDisclosure, Button } from "@chakra-ui/react";
+import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
+import { PlusIconSecond, DeleteIcon } from "@/resources/icons";
+import { ButtonIcon, RoomForm } from "@/components";
+import "@/styles/ItemsTable.scss";
 import { Form } from "react-bootstrap";
-import AddItemModal from "./AddItemModal";
-import DeleteItemModal from "./DeleteItemModal";
+import { DeleteRowModal, AddRowModal } from "@/components";
 
-const ItemTableHeader = ({
+export const TableHeader = ({
     globalFilterValue,
     onGlobalFilterChange,
-    selectedItems,
+    selectedData,
+    type,
 }) => {
     const {
         isOpen: addItemIsOpen,
         onOpen: onAddItemOpen,
         onClose: onAddItemClose,
     } = useDisclosure();
+
     const {
         isOpen: deleteItemIsOpen,
         onOpen: onDeleteItemOpen,
         onClose: onDeleteItemClose,
     } = useDisclosure();
 
+    let form;
+
+    switch (type) {
+        case "rooms":
+            form = <RoomForm onAddRoomClose={onAddItemClose} />;
+            break;
+    }
+
     return (
         <div className="items_header">
-            <div className="items_header_top">
-                <Form.Select>
-                    <option>Room 356</option>
-                    <option>Room 123</option>
-                    <option>Room 765</option>
-                </Form.Select>
-            </div>
+            {type === "items" && (
+                <div className="items_header_top">
+                    <Form.Select>
+                        <option>Room 356</option>
+                        <option>Room 123</option>
+                        <option>Room 765</option>
+                    </Form.Select>
+                </div>
+            )}
             <div className="items_header_bottom">
                 <div className="items_header_bottom_actions">
                     <Button
@@ -38,17 +52,15 @@ const ItemTableHeader = ({
                         onClick={onAddItemOpen}
                         leftIcon={<ButtonIcon icon={PlusIconSecond} />}
                     >
-                        Add an item
+                        Add {type}
                     </Button>
                     <Button
                         colorScheme="red"
                         onClick={onDeleteItemOpen}
                         leftIcon={<ButtonIcon icon={DeleteIcon} />}
-                        isDisabled={
-                            !selectedItems || selectedItems.length === 0
-                        }
+                        isDisabled={!selectedData || selectedData.length === 0}
                     >
-                        Delete selected items
+                        Delete selected {type}
                     </Button>
                 </div>
                 <div className="items_header_bottom_search">
@@ -59,16 +71,17 @@ const ItemTableHeader = ({
                     />
                 </div>
             </div>
-            <AddItemModal
+            <AddRowModal
                 addItemIsOpen={addItemIsOpen}
                 onAddItemClose={onAddItemClose}
+                form={form}
+                type={type}
             />
-            <DeleteItemModal
+            <DeleteRowModal
                 deleteItemIsOpen={deleteItemIsOpen}
                 onDeleteItemClose={onDeleteItemClose}
+                type={type}
             />
         </div>
     );
 };
-
-export default ItemTableHeader;

@@ -2,6 +2,7 @@ import SideBarNavigationItem from "./SideBarNavigationItem";
 import {
     SIDEBAR_LINKS_EMPLOYER,
     SIDEBAR_LINKS_WORKER,
+    SIDEBAR_LINKS_ADMIN,
 } from "@/utils/constants";
 import styles from "./SideBar.module.scss";
 import { useRecoilState } from "recoil";
@@ -23,6 +24,15 @@ const SideBarNavigation = ({ setShowSideBar }) => {
                     ))}
                 {user.role === "worker" &&
                     SIDEBAR_LINKS_WORKER.map((item) => (
+                        <SideBarNavigationItem
+                            key={item.id}
+                            route={item}
+                            setShowSideBar={setShowSideBar}
+                        />
+                    ))}
+
+                {user.role === "admin" &&
+                    SIDEBAR_LINKS_ADMIN.map((item) => (
                         <SideBarNavigationItem
                             key={item.id}
                             route={item}

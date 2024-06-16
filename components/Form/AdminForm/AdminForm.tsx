@@ -1,22 +1,79 @@
 import styles from "./AdminForm.module.scss";
-import { LOGIN_INPUTS, LOGIN_SCHEMA } from "@/utils/constants";
+import { LOGIN_INPUTS, LOGIN_SCHEMA, API_ENDPOINT } from "@/utils/constants";
 import { useState } from "react";
 import { Form } from "react-bootstrap";
 import { FormInput, FormSubmit } from "@/components";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { TLoginData } from "@/utils/types";
+import { TAdminLoginData } from "@/utils/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axiosInstance from "@/utils/axiosInstance";
+import { userAtom } from "@/utils/atoms";
+import { useRecoilState } from "recoil";
+import { useRouter } from "next/navigation";
+import { useToastMessage } from "@/utils/hooks";
 
 const AdminForm = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [user, setUser] = useRecoilState(userAtom);
+    const router = useRouter();
+    const showToast = useToastMessage();
 
     const {
         register: loginRegister,
         handleSubmit: handleSubmit,
         formState: { errors },
-    } = useForm<TLoginData>({ resolver: zodResolver(LOGIN_SCHEMA) });
+    } = useForm<TAdminLoginData>({ resolver: zodResolver(LOGIN_SCHEMA) });
 
-    const onLoginSubmit: SubmitHandler<TLoginData> = async (data) => {};
+    const onLoginSubmit: SubmitHandler<TAdminLoginData> = async (data) => {
+        try {
+            setIsLoading(true);
+            const response = await axiosInstance.post(
+                `${process.env.BASE_URL}${API_ENDPOINT.ADMIN_LOGIN}`,
+                data
+            );
+
+            console.log(response);
+
+            switch (response.data.status) {
+                case 200:
+                    const userInformations = {
+                        userId: response.data.userId,
+                        fullName: response.data.userEmail,
+                        role: response.data.userRole,
+                        token: response.data.token,
+                    };
+
+                    sessionStorage.setItem(
+                        "user",
+                        JSON.stringify(userInformations)
+                    );
+
+                    setUser((prev) => ({
+                        ...prev,
+                        approveLogin: true,
+                    }));
+                    router.push("/dashboard");
+                    break;
+
+                case 403:
+                    showToast("error", response.data.description);
+                    setIsLoading(false);
+                    break;
+
+                case 401:
+                case 404:
+                    showToast("error", response.data.description);
+                    setIsLoading(false);
+
+                    break;
+                default:
+                    setIsLoading(false);
+            }
+        } catch (error) {
+            console.log(error);
+            setIsLoading(false);
+        }
+    };
 
     return (
         <div className={styles.admin}>
