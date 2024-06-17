@@ -3,7 +3,7 @@ import { InputText } from "primereact/inputtext";
 import { useDisclosure, Button } from "@chakra-ui/react";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 import { PlusIconSecond, DeleteIcon } from "@/resources/icons";
-import { ButtonIcon, RoomForm } from "@/components";
+import { ButtonIcon, RoomForm, CompaniesForm } from "@/components";
 import "@/styles/ItemsTable.scss";
 import { Form } from "react-bootstrap";
 import { DeleteRowModal, AddRowModal } from "@/components";
@@ -32,6 +32,9 @@ export const TableHeader = ({
         case "rooms":
             form = <RoomForm onAddRoomClose={onAddItemClose} />;
             break;
+        case "company":
+            form = <CompaniesForm onAddCompanyClose={onAddItemClose} />;
+            break;
     }
 
     return (
@@ -52,7 +55,7 @@ export const TableHeader = ({
                         onClick={onAddItemOpen}
                         leftIcon={<ButtonIcon icon={PlusIconSecond} />}
                     >
-                        Add {type}
+                        Add a {type}
                     </Button>
                     <Button
                         colorScheme="red"

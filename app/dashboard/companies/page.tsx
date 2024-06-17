@@ -21,7 +21,7 @@ const page = () => {
             <div className={styles.table_container}>
                 {!loading && (
                     <CrudTable
-                        type="companies"
+                        type="company"
                         columns={COMPANY_TABLE_COLUMNS}
                         dataAPI={data}
                     />

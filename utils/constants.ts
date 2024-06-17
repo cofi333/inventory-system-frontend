@@ -364,6 +364,20 @@ export const ADD_ROOMS_SCHEMA = z.object({
         message: "Room description must have at least 20 characters.",
     }),
 });
+
+export const ADD_COMPANY_SCHEMA = z.object({
+    company_name: z
+        .string()
+        .min(3, { message: "Company name must have at lesat 3 characters." }),
+    company_email: z.string().email("Email is not valid."),
+    company_state: z
+        .string()
+        .min(3, { message: "Company state must have at least 3 characters." }),
+    company_address: z
+        .string()
+        .min(3, { message: "Company state must have at least 3 characters." }),
+});
+
 export const SIDEBAR_LINKS_EMPLOYER: TSideBarLinks[] = [
     {
         id: 1,
@@ -573,5 +587,37 @@ export const SIDEBAR_LINKS_ADMIN: TSideBarLinks[] = [
         link: "/dashboard/users",
         label: "Users",
         icon: TeamIcon,
+    },
+];
+
+export const COMPANIES_INPUTS: TInputs[] = [
+    {
+        id: 1,
+        label: "Name",
+        name: "company_name",
+        type: "text",
+        placeholder: "Enter company name",
+    },
+    {
+        id: 2,
+        label: "E-mail",
+        name: "company_email",
+        type: "email",
+        placeholder: "Enter company email",
+    },
+    {
+        id: 3,
+        label: "State",
+        name: "company_state",
+        type: "text",
+        placeholder: "Enter company state",
+    },
+
+    {
+        id: 4,
+        label: "Address",
+        name: "company_address",
+        type: "text",
+        placeholder: "Enter company address",
     },
 ];

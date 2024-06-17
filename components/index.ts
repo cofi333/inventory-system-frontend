@@ -29,3 +29,4 @@ export { default as CrudTable } from "./CrudTable/CrudTable";
 export { default as RoomForm } from "./Form/RoomForm/RoomForm";
 export { default as AddRowModal } from "./CrudTable/AddRowModal";
 export { default as DeleteRowModal } from "./CrudTable/DeleteRowModal";
+export { default as CompaniesForm } from "./Form/CompaniesForm/CompaniesForm";
