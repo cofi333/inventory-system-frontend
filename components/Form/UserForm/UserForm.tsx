@@ -5,14 +5,16 @@ import { FormInput } from "@/components";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TRoomsData } from "@/utils/types";
-import { ADD_COMPANY_SCHEMA } from "@/utils/constants";
+import { ADD_USER_VALIDATION_SCHEMA } from "@/utils/constants";
 
-const CompaniesForm = ({ onAddUserClose }) => {
+const UserForm = ({ onAddUserClose }) => {
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<TRoomsData>({ resolver: zodResolver(ADD_COMPANY_SCHEMA) });
+    } = useForm<TRoomsData>({
+        resolver: zodResolver(ADD_USER_VALIDATION_SCHEMA),
+    });
 
     const onSubmit = () => {};
 
@@ -38,4 +40,4 @@ const CompaniesForm = ({ onAddUserClose }) => {
     );
 };
 
-export default CompaniesForm;
+export default UserForm;

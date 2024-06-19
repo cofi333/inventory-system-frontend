@@ -713,3 +713,31 @@ export const ADD_USER_INPUTS: TInputs[] = [
         type: "select",
     },
 ];
+
+export const ADD_USER_VALIDATION_SCHEMA = z
+    .object({
+        worker_fname: z.string().min(3, {
+            message: "First name must have at least 3 characters.",
+        }),
+        worker_lname: z.string().min(3, {
+            message: "Last name must have at least 3 characters.",
+        }),
+        worker_email: z.string().email("Email is not valid."),
+        worker_password: z
+            .string()
+            .regex(
+                /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                {
+                    message:
+                        "Your password must contain minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.",
+                }
+            ),
+        worker_repeat_password: z.string(),
+        worker_company: z.string().refine((val) => val !== "0", {
+            message: "Select a company",
+        }),
+    })
+    .refine((data) => data.worker_password === data.worker_repeat_password, {
+        message: "Passwords don't match.",
+        path: ["worker_repeat_password"],
+    });
