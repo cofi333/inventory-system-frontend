@@ -368,7 +368,7 @@ export const ADD_ROOMS_SCHEMA = z.object({
 export const ADD_COMPANY_SCHEMA = z.object({
     company_name: z
         .string()
-        .min(3, { message: "Company name must have at lesat 3 characters." }),
+        .min(3, { message: "Company name must have at least 3 characters." }),
     company_email: z.string().email("Email is not valid."),
     company_state: z
         .string()
@@ -449,7 +449,6 @@ export const PROFILE_FORM_INPUTS: TInputs[] = [
         name: "company_id",
         label: "Company",
         type: "select",
-        placeholder: null,
     },
 ];
 
@@ -493,6 +492,12 @@ export const ROOM_TABLE_COLUMNS: TTableColumns[] = [
         id: 3,
         field: "roomDescription",
         header: "Description",
+    },
+    {
+        id: 4,
+        field: "roomInventoryActive",
+        header: "Status",
+        select: true,
     },
 ];
 
@@ -619,5 +624,92 @@ export const COMPANIES_INPUTS: TInputs[] = [
         name: "company_address",
         type: "text",
         placeholder: "Enter company address",
+    },
+];
+
+export const USER_TABLE_COLUMNS: TTableColumns[] = [
+    {
+        id: 1,
+        field: "user_fname",
+        header: "First name",
+        sortable: true,
+    },
+    {
+        id: 2,
+        field: "user_lname",
+        header: "Last name",
+    },
+    {
+        id: 3,
+        field: "user_email",
+        header: "Email",
+    },
+    {
+        id: 4,
+        field: "user_company",
+        header: "Company",
+        select: true,
+    },
+    {
+        id: 5,
+        field: "user_role",
+        header: "Role",
+        sortable: true,
+        select: true,
+    },
+    {
+        id: 6,
+        field: "user_active",
+        header: "Status",
+        select: true,
+    },
+];
+
+export const ADD_USER_INPUTS: TInputs[] = [
+    {
+        id: 1,
+        name: "worker_fname",
+        label: "First name",
+        type: "text",
+        placeholder: "Enter an first name",
+    },
+
+    {
+        id: 2,
+        name: "worker_lname",
+        label: "Last name",
+        type: "text",
+        placeholder: "Enter a last name",
+    },
+
+    {
+        id: 3,
+        name: "worker_email",
+        label: "Email",
+        type: "text",
+        placeholder: "Enter an email",
+    },
+
+    {
+        id: 4,
+        name: "worker_password",
+        label: "Password",
+        type: "password",
+        placeholder: "Enter a password",
+    },
+
+    {
+        id: 5,
+        name: "worker_repeat_password",
+        label: "Repeat password",
+        type: "password",
+        placeholder: "Repeat a password",
+    },
+
+    {
+        id: 6,
+        name: "worker_company",
+        label: "Company",
+        type: "select",
     },
 ];

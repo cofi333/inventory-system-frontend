@@ -19,4 +19,8 @@
 
 .table_container {
     padding: 40px 80px;
+
+    @media only screen and (max-width: 576px) {
+        padding: 40px 20px;
+    }
 }

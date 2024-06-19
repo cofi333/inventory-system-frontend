@@ -51,31 +51,6 @@
     }
 }
 
-.rooms {
-    &_search {
-        font-size: 1rem;
-
-        input {
-            padding: 5px 20px;
-            border-radius: 8px;
-            background-color: #eceff4;
-        }
-    }
-
-    &_actions {
-        display: flex;
-        gap: 16px;
-    }
-
-    &_header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        padding: 20px;
-    }
-}
-
 .p-dropdown-items {
     padding-left: 0;
     margin-bottom: 4px;

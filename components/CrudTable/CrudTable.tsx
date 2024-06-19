@@ -1,4 +1,4 @@
-import "./RoomTable.scss";
+import "./CrudTable.scss";
 import { DataTable, DataTableFilterMeta } from "primereact/datatable";
 import { Column, ColumnEditorOptions } from "primereact/column";
 import { useState } from "react";
@@ -6,10 +6,11 @@ import { FilterMatchMode } from "primereact/api";
 import { Tag } from "primereact/tag";
 import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
-import { useToastMessage } from "@/utils/hooks";
+import { useTableValidator } from "@/utils/hooks";
 import { QRCodeGenerateIcon } from "@/resources/icons";
 import Image from "next/image";
 import { TableHeader } from "./TableHeader";
+import "primereact/resources/themes/mira/theme.css";
 
 const CrudTable = ({ columns, type, dataAPI }) => {
     const [data, setData] = useState(dataAPI);
@@ -18,8 +19,7 @@ const CrudTable = ({ columns, type, dataAPI }) => {
     });
     const [globalFilterValue, setGlobalFilterValue] = useState<string>("");
     const [selectedData, setSelectedData] = useState(null);
-    const [statuses] = useState<string[]>(["Active", "Inactive"]);
-    const showToast = useToastMessage();
+    const { validateRow } = useTableValidator();
 
     const onGlobalFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -32,15 +32,29 @@ const CrudTable = ({ columns, type, dataAPI }) => {
         setGlobalFilterValue(value);
     };
 
-    const statusEditor = (options: ColumnEditorOptions) => {
+    const selectEditor = (options: ColumnEditorOptions, field: string) => {
+        let optionsValue;
+
+        switch (field) {
+            case "user_company":
+                optionsValue = ["company1", "company2"];
+                break;
+            case "user_active":
+            case "roomInventoryActive":
+                optionsValue = ["Active", "Inactive"];
+                break;
+            case "user_role":
+                optionsValue = ["Worker", "Employer"];
+                break;
+        }
         return (
             <Dropdown
                 value={options.value}
-                options={statuses}
+                options={optionsValue}
                 onChange={(e: DropdownChangeEvent) =>
                     options.editorCallback!(e.value)
                 }
-                placeholder="Select a Status"
+                placeholder="Select"
                 itemTemplate={(option) => {
                     return <Tag value={option}></Tag>;
                 }}
@@ -72,34 +86,11 @@ const CrudTable = ({ columns, type, dataAPI }) => {
         );
     };
 
-    const onSubmit = (e) => {};
-
     const rowEditValidator = (rowData) => {
-        const { roomNumber, roomDescription, roomName } = rowData;
-
-        if (roomNumber === "" || isNaN(roomNumber)) {
-            showToast(
-                "error",
-                "Room number must be a number and can't be empty."
-            );
-            return false;
-        }
-
-        if (roomName.trim() === "" || roomName.length < 5) {
-            showToast("error", "Room name must have at least 5 characters.");
-            return false;
-        }
-
-        if (roomDescription.trim() === "" || roomDescription.length < 20) {
-            showToast(
-                "error",
-                "Room description must have at least 20 characters."
-            );
-            return false;
-        }
-
-        return true;
+        return validateRow(type, rowData);
     };
+
+    const onSubmit = (e) => {};
 
     return (
         <div className="card">
@@ -128,33 +119,23 @@ const CrudTable = ({ columns, type, dataAPI }) => {
                 <Column
                     selectionMode="multiple"
                     headerStyle={{ width: "3rem" }}
-                ></Column>
+                />
                 {columns.map((column) => (
                     <Column
                         field={column.field}
                         header={column.header}
-                        editor={(options) => textEditor(options)}
+                        editor={(options) =>
+                            column.select
+                                ? selectEditor(options, column.field)
+                                : textEditor(options)
+                        }
                         sortable={column.sortable}
                         key={column.id}
                     />
                 ))}
 
-                {type === "rooms" && (
-                    <Column
-                        field="roomInventoryActive"
-                        header="Inventory status"
-                        editor={(options) => statusEditor(options)}
-                        body={(rowData) =>
-                            rowData.roomInventoryActive ? "Active" : "Inactive"
-                        }
-                    />
-                )}
-
-                {type === "items" && (
-                    <Column body={generateQRTemplate}></Column>
-                )}
-
-                <Column rowEditor></Column>
+                {type === "items" && <Column body={generateQRTemplate} />}
+                <Column rowEditor />
             </DataTable>
         </div>
     );

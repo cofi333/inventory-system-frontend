@@ -3,7 +3,7 @@ import { InputText } from "primereact/inputtext";
 import { useDisclosure, Button } from "@chakra-ui/react";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 import { PlusIconSecond, DeleteIcon } from "@/resources/icons";
-import { ButtonIcon, RoomForm, CompaniesForm } from "@/components";
+import { ButtonIcon, RoomForm, CompaniesForm, UserForm } from "@/components";
 import "@/styles/ItemsTable.scss";
 import { Form } from "react-bootstrap";
 import { DeleteRowModal, AddRowModal } from "@/components";
@@ -35,6 +35,10 @@ export const TableHeader = ({
         case "company":
             form = <CompaniesForm onAddCompanyClose={onAddItemClose} />;
             break;
+
+        case "user":
+            form = <UserForm onAddUserClose={onAddItemClose} />;
+            break;
     }
 
     return (
@@ -55,7 +59,7 @@ export const TableHeader = ({
                         onClick={onAddItemOpen}
                         leftIcon={<ButtonIcon icon={PlusIconSecond} />}
                     >
-                        Add a {type}
+                        <div className="label">Add a {type}</div>
                     </Button>
                     <Button
                         colorScheme="red"
@@ -63,7 +67,7 @@ export const TableHeader = ({
                         leftIcon={<ButtonIcon icon={DeleteIcon} />}
                         isDisabled={!selectedData || selectedData.length === 0}
                     >
-                        Delete selected {type}
+                        <div className="label">Delete selected {type}</div>
                     </Button>
                 </div>
                 <div className="items_header_bottom_search">

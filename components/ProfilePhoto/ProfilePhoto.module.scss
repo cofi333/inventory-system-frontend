@@ -67,16 +67,7 @@
         }
 
         button[type="reset"] {
-            height: fit-content;
             margin-top: 10px;
-            background-color: #edf2f7;
-            color: #1a202c;
-
-            &:hover,
-            &:focus {
-                background-color: #edf2f7 !important;
-                opacity: 0.8;
-            }
         }
     }
 

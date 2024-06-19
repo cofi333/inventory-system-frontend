@@ -5,7 +5,7 @@ export type TInputs = {
     label: string;
     name: string;
     type: string;
-    placeholder: string | null;
+    placeholder?: string;
 };
 
 export type TRegisterData = {
@@ -127,6 +127,8 @@ export type TTableColumns = {
     field: string;
     header: string;
     sortable?: boolean;
+    select?: boolean;
+    selectData?: string[];
 };
 
 export type TRoomsData = {
