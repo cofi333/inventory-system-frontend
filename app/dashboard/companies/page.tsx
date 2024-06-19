@@ -6,6 +6,7 @@ import { API_ENDPOINT } from "@/utils/constants";
 import { useRecoilState } from "recoil";
 import { userAtom } from "@/utils/atoms";
 import useFetch from "@/utils/hooks/useFetch";
+import "primereact/resources/themes/mira/theme.css";
 
 const page = () => {
     const [user, setUser] = useRecoilState(userAtom);

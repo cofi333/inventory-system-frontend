@@ -10,7 +10,6 @@ import { useTableValidator } from "@/utils/hooks";
 import { QRCodeGenerateIcon } from "@/resources/icons";
 import Image from "next/image";
 import { TableHeader } from "./TableHeader";
-import "primereact/resources/themes/mira/theme.css";
 
 const CrudTable = ({ columns, type, dataAPI }) => {
     const [data, setData] = useState(dataAPI);
