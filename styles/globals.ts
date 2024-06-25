@@ -8,7 +8,7 @@ export const globals = StyleSheet.create({
         marginHorizontal: 20,
     },
     header: {
-        fontSize: 23,
+        fontSize: 25,
         marginBottom: 5,
         textAlign: "center",
     },
@@ -18,13 +18,12 @@ export const globals = StyleSheet.create({
         textAlign: "center",
     },
     input: {
-        height: 30,
-        margin: 8,
+        marginVertical: 8,
         borderWidth: 1,
-        borderRadius: 8,
+        borderRadius: 4,
         paddingHorizontal: 8,
         paddingVertical: 4,
-        minWidth: "75%",
+        minWidth: "100%",
     },
 });
 

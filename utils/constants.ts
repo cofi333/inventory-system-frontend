@@ -1,8 +1,9 @@
 import { TApiEndpoints, TInputs } from "./types";
 import { z } from "zod";
 
-export const colors = {
+export const COLORS = {
     button_primary: "#202930",
+    button_text: "#fff",
 };
 
 export const API_ENDPOINT: TApiEndpoints = {

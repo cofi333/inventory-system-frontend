@@ -1,7 +1,7 @@
-import { Text, Image, View, Button } from "react-native";
+import { Text, Image, View } from "react-native";
 import { images } from "../resources/images";
 import { welcomeScreen, globals } from "../styles/globals";
-import { colors } from "../utils/constants";
+import { PrimaryButton } from "../components";
 
 const WelcomeScreen = ({ navigation }) => {
     return (
@@ -18,14 +18,12 @@ const WelcomeScreen = ({ navigation }) => {
                 </Text>
             </View>
             <View style={welcomeScreen.buttons}>
-                <Button
+                <PrimaryButton
                     title="Login"
-                    color={colors.button_primary}
                     onPress={() => navigation.navigate("Login")}
                 />
-                <Button
+                <PrimaryButton
                     title="Signup"
-                    color={colors.button_primary}
                     onPress={() => navigation.navigate("Signup")}
                 />
             </View>
