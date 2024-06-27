@@ -1,7 +1,7 @@
-import { Text } from "react-native";
+import Camera from "../components/Camera";
 
 const CameraScreen = () => {
-    return <Text>CameraScreen</Text>;
+    return <Camera />;
 };
 
 export default CameraScreen;

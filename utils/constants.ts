@@ -1,6 +1,8 @@
-import { CameraScreen, HomeScreen, ProfileScreen } from "../screens";
 import { TApiEndpoints, TInputs, TScreens } from "./types";
 import { z } from "zod";
+import CameraScreen from "../screens/CameraScreen";
+import HomeScreen from "../screens/HomeScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 export const COLORS = {
     button_primary: "#202930",

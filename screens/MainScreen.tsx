@@ -1,7 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { COLORS } from "../utils/constants";
-import { TAB_SCREENS } from "../utils/constants";
+import { COLORS, TAB_SCREENS } from "../utils/constants";
 
 const MainScreen = () => {
     const Tab = createBottomTabNavigator();
@@ -26,11 +25,12 @@ const MainScreen = () => {
                         tabBarIcon: () => (
                             <MaterialCommunityIcons
                                 name={screen.icon}
-                                size={25}
+                                size={26}
                                 color="#fff"
                             />
                         ),
                     }}
+                    key={screen.id}
                 />
             ))}
         </Tab.Navigator>

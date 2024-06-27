@@ -1,9 +1,9 @@
 import { Pressable, Text, ActivityIndicator } from "react-native";
-import { globals } from "../styles/globals";
 import { COLORS } from "../utils/constants";
 import { StyleSheet } from "react-native";
+import { TPrimaryButtonProps } from "../utils/types";
 
-const PrimaryButton = ({ title, onPress, isLoading }) => {
+const PrimaryButton = ({ title, onPress, isLoading }: TPrimaryButtonProps) => {
     return (
         <Pressable onPress={onPress} style={button.background}>
             {isLoading ? (

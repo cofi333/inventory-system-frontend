@@ -1,5 +1,3 @@
-import { ReactElement } from "react";
-
 export type TApiEndpoints = {
     [key: string]: string;
 };
@@ -27,4 +25,10 @@ export type TScreens = {
     component: React.FC;
     name: string;
     icon?: string;
+};
+
+export type TPrimaryButtonProps = {
+    title: string;
+    onPress: () => {};
+    isLoading?: boolean;
 };
