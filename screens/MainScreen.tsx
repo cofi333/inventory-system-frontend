@@ -1,27 +1,39 @@
-import { Text, View } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useState } from "react";
-import { globals } from "../styles/globals";
-import { TUser } from "../utils/types";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { COLORS } from "../utils/constants";
+import { TAB_SCREENS } from "../utils/constants";
 
 const MainScreen = () => {
-    const [user, setUser] = useState<TUser>();
-    useEffect(() => {
-        const getData = async () => {
-            try {
-                const value = JSON.parse(await AsyncStorage.getItem("user"));
-                setUser(value);
-            } catch (e) {
-                console.log(e);
-            }
-        };
+    const Tab = createBottomTabNavigator();
 
-        getData();
-    }, []);
     return (
-        <View style={globals.container}>
-            <Text>Hello, {user?.userFullName}</Text>
-        </View>
+        <Tab.Navigator
+            initialRouteName="Home"
+            screenOptions={{
+                headerShown: false,
+                tabBarShowLabel: false,
+                tabBarActiveBackgroundColor: COLORS.active_tab,
+                tabBarStyle: {
+                    backgroundColor: COLORS.button_primary,
+                },
+            }}
+        >
+            {TAB_SCREENS.map((screen) => (
+                <Tab.Screen
+                    name={screen.name}
+                    component={screen.component}
+                    options={{
+                        tabBarIcon: () => (
+                            <MaterialCommunityIcons
+                                name={screen.icon}
+                                size={25}
+                                color="#fff"
+                            />
+                        ),
+                    }}
+                />
+            ))}
+        </Tab.Navigator>
     );
 };
 

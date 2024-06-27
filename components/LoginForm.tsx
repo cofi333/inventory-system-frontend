@@ -36,6 +36,7 @@ const LoginForm = ({ navigation }) => {
                     break;
             }
         } catch (error) {
+            console.log(error);
             setIsLoading(false);
         }
     };
@@ -68,7 +69,11 @@ const LoginForm = ({ navigation }) => {
                 </View>
             ))}
 
-            <PrimaryButton title="Login" onPress={handleSubmit(onSubmit)} />
+            <PrimaryButton
+                title="Login"
+                onPress={handleSubmit(onSubmit)}
+                isLoading={isLoading}
+            />
         </View>
     );
 };

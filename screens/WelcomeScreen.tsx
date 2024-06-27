@@ -1,7 +1,7 @@
 import { Text, Image, View } from "react-native";
 import { images } from "../resources/images";
 import { welcomeScreen, globals } from "../styles/globals";
-import { PrimaryButton } from "../components";
+import PrimaryButton from "../components/PrimaryButton";
 
 const WelcomeScreen = ({ navigation }) => {
     return (

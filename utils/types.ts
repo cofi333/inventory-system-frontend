@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+
 export type TApiEndpoints = {
     [key: string]: string;
 };
@@ -11,11 +13,18 @@ export type TInputs = {
 };
 
 export type TUser = {
-    status: Number;
+    status: number;
     userEmail: string;
     userFullName: string;
     token: string;
-    userId: Number;
+    userId: number;
     userRole: string;
     profilePicture: string | null;
+};
+
+export type TScreens = {
+    id: number;
+    component: React.FC;
+    name: string;
+    icon?: string;
 };
