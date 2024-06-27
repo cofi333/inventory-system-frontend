@@ -6,9 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "@env";
-import { PrimaryButton } from "../components";
+import PrimaryButton from "./PrimaryButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const LoginForm = () => {
+const LoginForm = ({ navigation }) => {
     const {
         handleSubmit,
         control,
@@ -25,9 +26,16 @@ const LoginForm = () => {
                 `${BASE_URL}${API_ENDPOINT.LOGIN}`,
                 data
             );
-            console.log(response);
+            switch (response.data.status) {
+                case 200:
+                    await AsyncStorage.setItem(
+                        "user",
+                        JSON.stringify(response.data)
+                    );
+                    navigation.navigate("Main");
+                    break;
+            }
         } catch (error) {
-            console.log(error);
             setIsLoading(false);
         }
     };

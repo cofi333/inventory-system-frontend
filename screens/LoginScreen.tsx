@@ -1,10 +1,10 @@
 import { Text, View } from "react-native";
 import { LoginForm } from "../components";
 import { globals } from "../styles/globals";
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
     return (
         <View style={globals.container}>
-            <LoginForm />
+            <LoginForm navigation={navigation} />
         </View>
     );
 };

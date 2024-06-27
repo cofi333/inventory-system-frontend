@@ -9,3 +9,13 @@ export type TInputs = {
     type: string;
     placeholder?: string;
 };
+
+export type TUser = {
+    status: Number;
+    userEmail: string;
+    userFullName: string;
+    token: string;
+    userId: Number;
+    userRole: string;
+    profilePicture: string | null;
+};

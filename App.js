@@ -1,4 +1,9 @@
-import { WelcomeScreen, LoginScreen, SignupScreen } from "./screens";
+import {
+    WelcomeScreen,
+    LoginScreen,
+    SignupScreen,
+    MainScreen,
+} from "./screens";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -16,6 +21,7 @@ export default function App() {
                 <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
                 <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="Signup" component={SignupScreen} />
+                <Stack.Screen name="Main" component={MainScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
