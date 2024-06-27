@@ -1,23 +1,26 @@
-import { Text, TextInput, View, Button } from "react-native";
-import { globals } from "../styles/globals";
-import { LOGIN_INPUTS, LOGIN_SCHEMA, API_ENDPOINT } from "../utils/constants";
+import { View, Text, TextInput } from "react-native";
+import {
+    REGISTER_INPUTS,
+    REGISTER_SCHEMA,
+    API_ENDPOINT,
+} from "../utils/constants";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { globals } from "../styles/globals";
+import PrimaryButton from "./PrimaryButton";
 import axios from "axios";
 import { BASE_URL } from "@env";
-import PrimaryButton from "./PrimaryButton";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { showToast } from "../utils/functions";
 import Toast from "react-native-toast-message";
+import { showToast } from "../utils/functions";
 
-const LoginForm = ({ navigation }) => {
+const SignupForm = () => {
     const {
         handleSubmit,
         control,
         formState: { errors },
     } = useForm({
-        resolver: zodResolver(LOGIN_SCHEMA),
+        resolver: zodResolver(REGISTER_SCHEMA),
     });
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -25,27 +28,24 @@ const LoginForm = ({ navigation }) => {
         try {
             setIsLoading(true);
             const response = await axios.post(
-                `${BASE_URL}${API_ENDPOINT.LOGIN}`,
+                `${BASE_URL}${API_ENDPOINT.REGISTER}`,
                 data
             );
+
             switch (response.data.status) {
                 case 200:
-                    await AsyncStorage.setItem(
-                        "user",
-                        JSON.stringify(response.data)
-                    );
-                    navigation.navigate("Main");
+                    showToast("success", response.data.description);
                     break;
 
-                case 401:
                 case 403:
-                case 404:
-                    setIsLoading(false);
                     showToast("error", response.data.description);
                     break;
+                default:
+                    setIsLoading(false);
             }
         } catch (error) {
             console.log(error);
+        } finally {
             setIsLoading(false);
         }
     };
@@ -53,7 +53,7 @@ const LoginForm = ({ navigation }) => {
     return (
         <>
             <View>
-                {LOGIN_INPUTS.map((input) => (
+                {REGISTER_INPUTS.map((input) => (
                     <View key={input.id}>
                         <Controller
                             control={control}
@@ -82,7 +82,6 @@ const LoginForm = ({ navigation }) => {
                         />
                     </View>
                 ))}
-
                 <PrimaryButton
                     title="Submit"
                     onPress={handleSubmit(onSubmit)}
@@ -94,4 +93,4 @@ const LoginForm = ({ navigation }) => {
     );
 };
 
-export default LoginForm;
+export default SignupForm;
