@@ -22,7 +22,7 @@ export type TUser = {
 
 export type TScreens = {
     id: number;
-    component: React.FC;
+    component: string;
     name: string;
     icon?: string;
 };

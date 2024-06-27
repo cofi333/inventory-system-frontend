@@ -1,8 +1,5 @@
 import { TApiEndpoints, TInputs, TScreens } from "./types";
 import { z } from "zod";
-import CameraScreen from "../screens/CameraScreen";
-import HomeScreen from "../screens/HomeScreen";
-import ProfileScreen from "../screens/ProfileScreen";
 
 export const COLORS = {
     button_primary: "#202930",
@@ -44,26 +41,3 @@ export const LOGIN_SCHEMA = z.object({
             }
         ),
 });
-
-export const TAB_SCREENS: TScreens[] = [
-    {
-        id: 1,
-        component: HomeScreen,
-        name: "Home",
-        icon: "home",
-    },
-
-    {
-        id: 2,
-        component: CameraScreen,
-        name: "CameraScreen",
-        icon: "qrcode-scan",
-    },
-
-    {
-        id: 3,
-        component: ProfileScreen,
-        name: "ProfileScreen",
-        icon: "account",
-    },
-];

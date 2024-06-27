@@ -1,6 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { COLORS, TAB_SCREENS } from "../utils/constants";
+import { COLORS } from "../utils/constants";
+import CameraScreen from "../screens/CameraScreen";
+import HomeScreen from "../screens/HomeScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 const MainScreen = () => {
     const Tab = createBottomTabNavigator();
@@ -17,22 +20,45 @@ const MainScreen = () => {
                 },
             }}
         >
-            {TAB_SCREENS.map((screen) => (
-                <Tab.Screen
-                    name={screen.name}
-                    component={screen.component}
-                    options={{
-                        tabBarIcon: () => (
-                            <MaterialCommunityIcons
-                                name={screen.icon}
-                                size={26}
-                                color="#fff"
-                            />
-                        ),
-                    }}
-                    key={screen.id}
-                />
-            ))}
+            <Tab.Screen
+                name="Home"
+                component={HomeScreen}
+                options={{
+                    tabBarIcon: () => (
+                        <MaterialCommunityIcons
+                            name="home"
+                            size={26}
+                            color="#fff"
+                        />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="CameraScreen"
+                component={CameraScreen}
+                options={{
+                    tabBarIcon: () => (
+                        <MaterialCommunityIcons
+                            name="qrcode-scan"
+                            size={26}
+                            color="#fff"
+                        />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="ProfileScreen"
+                component={ProfileScreen}
+                options={{
+                    tabBarIcon: () => (
+                        <MaterialCommunityIcons
+                            name="account"
+                            size={26}
+                            color="#fff"
+                        />
+                    ),
+                }}
+            />
         </Tab.Navigator>
     );
 };

@@ -8,6 +8,8 @@ import axios from "axios";
 import { BASE_URL } from "@env";
 import PrimaryButton from "./PrimaryButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { showToast } from "../utils/functions";
+import Toast from "react-native-toast-message";
 
 const LoginForm = ({ navigation }) => {
     const {
@@ -34,6 +36,13 @@ const LoginForm = ({ navigation }) => {
                     );
                     navigation.navigate("Main");
                     break;
+
+                case 401:
+                case 403:
+                case 404:
+                    setIsLoading(false);
+                    showToast("error", response.data.description);
+                    break;
             }
         } catch (error) {
             console.log(error);
@@ -42,39 +51,46 @@ const LoginForm = ({ navigation }) => {
     };
 
     return (
-        <View>
-            {LOGIN_INPUTS.map((input) => (
-                <View key={input.id}>
-                    <Controller
-                        control={control}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <>
-                                <TextInput
-                                    placeholder={input.placeholder}
-                                    style={globals.input}
-                                    secureTextEntry={input.type === "password"}
-                                    onBlur={onBlur}
-                                    onChangeText={onChange}
-                                    value={value}
-                                />
-                                {errors[input.name]?.message && (
-                                    <Text>
-                                        {String(errors[input.name].message)}
-                                    </Text>
-                                )}
-                            </>
-                        )}
-                        name={input.name}
-                    />
-                </View>
-            ))}
+        <>
+            <View>
+                {LOGIN_INPUTS.map((input) => (
+                    <View key={input.id}>
+                        <Controller
+                            control={control}
+                            render={({
+                                field: { onChange, onBlur, value },
+                            }) => (
+                                <>
+                                    <TextInput
+                                        placeholder={input.placeholder}
+                                        style={globals.input}
+                                        secureTextEntry={
+                                            input.type === "password"
+                                        }
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        value={value}
+                                    />
+                                    {errors[input.name]?.message && (
+                                        <Text>
+                                            {String(errors[input.name].message)}
+                                        </Text>
+                                    )}
+                                </>
+                            )}
+                            name={input.name}
+                        />
+                    </View>
+                ))}
 
-            <PrimaryButton
-                title="Login"
-                onPress={handleSubmit(onSubmit)}
-                isLoading={isLoading}
-            />
-        </View>
+                <PrimaryButton
+                    title="Login"
+                    onPress={handleSubmit(onSubmit)}
+                    isLoading={isLoading}
+                />
+            </View>
+            <Toast />
+        </>
     );
 };
 
