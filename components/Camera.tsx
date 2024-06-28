@@ -1,12 +1,5 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
-import {
-    Pressable,
-    Button,
-    StyleSheet,
-    Text,
-    View,
-    TouchableOpacity,
-} from "react-native";
+import { Button, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { COLORS } from "../utils/constants";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -53,21 +46,35 @@ const Camera = () => {
                 <View style={styles.overlay} />
             </CameraView>
 
-            <TouchableOpacity onPress={toggleTorch} style={styles.bulb}>
-                {torchEnabled ? (
-                    <MaterialCommunityIcons
-                        name="lightbulb-off"
-                        size={26}
-                        color="#fff"
-                    />
-                ) : (
-                    <MaterialCommunityIcons
-                        name="lightbulb"
-                        size={26}
-                        color="#fff"
-                    />
+            <View style={styles.camera_buttons}>
+                {!scanned && (
+                    <TouchableOpacity onPress={toggleTorch}>
+                        {torchEnabled ? (
+                            <MaterialCommunityIcons
+                                name="lightbulb-off"
+                                size={26}
+                                color="#fff"
+                            />
+                        ) : (
+                            <MaterialCommunityIcons
+                                name="lightbulb"
+                                size={26}
+                                color="#fff"
+                            />
+                        )}
+                    </TouchableOpacity>
                 )}
-            </TouchableOpacity>
+
+                {scanned && (
+                    <TouchableOpacity onPress={() => setScanned(false)}>
+                        <MaterialCommunityIcons
+                            name="scan-helper"
+                            size={26}
+                            color="#fff"
+                        />
+                    </TouchableOpacity>
+                )}
+            </View>
         </View>
     );
 };
@@ -91,8 +98,9 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: "rgba(255, 255, 255, 0.8)",
         backgroundColor: "rgba(0, 0, 0, 0.2)",
+        gap: 32,
     },
-    bulb: {
+    camera_buttons: {
         position: "absolute",
         bottom: 30,
         right: 10,
@@ -100,6 +108,7 @@ const styles = StyleSheet.create({
         zIndex: 10,
         backgroundColor: COLORS.color_primary,
         padding: 10,
+        gap: 32,
     },
     text: {
         color: "#fff",
