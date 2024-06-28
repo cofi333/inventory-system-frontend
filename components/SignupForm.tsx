@@ -52,7 +52,7 @@ const SignupForm = () => {
 
     return (
         <>
-            <View>
+            <View style={globals.form}>
                 {REGISTER_INPUTS.map((input) => (
                     <View key={input.id}>
                         <Controller
@@ -82,12 +82,12 @@ const SignupForm = () => {
                         />
                     </View>
                 ))}
-                <PrimaryButton
-                    title="Submit"
-                    onPress={handleSubmit(onSubmit)}
-                    isLoading={isLoading}
-                />
             </View>
+            <PrimaryButton
+                title="Submit"
+                onPress={handleSubmit(onSubmit)}
+                isLoading={isLoading}
+            />
             <Toast />
         </>
     );

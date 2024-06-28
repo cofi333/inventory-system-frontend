@@ -52,7 +52,7 @@ const LoginForm = ({ navigation }) => {
 
     return (
         <>
-            <View>
+            <View style={globals.form}>
                 {LOGIN_INPUTS.map((input) => (
                     <View key={input.id}>
                         <Controller
@@ -82,13 +82,12 @@ const LoginForm = ({ navigation }) => {
                         />
                     </View>
                 ))}
-
-                <PrimaryButton
-                    title="Submit"
-                    onPress={handleSubmit(onSubmit)}
-                    isLoading={isLoading}
-                />
             </View>
+            <PrimaryButton
+                title="Submit"
+                onPress={handleSubmit(onSubmit)}
+                isLoading={isLoading}
+            />
             <Toast />
         </>
     );

@@ -16,7 +16,7 @@ const MainScreen = () => {
                 tabBarShowLabel: false,
                 tabBarActiveBackgroundColor: COLORS.active_tab,
                 tabBarStyle: {
-                    backgroundColor: COLORS.button_primary,
+                    backgroundColor: COLORS.color_primary,
                 },
             }}
         >

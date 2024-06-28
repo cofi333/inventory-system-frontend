@@ -1,8 +1,8 @@
-import { TApiEndpoints, TInputs, TScreens } from "./types";
+import { TApiEndpoints, TInputs } from "./types";
 import { z } from "zod";
 
 export const COLORS = {
-    button_primary: "#202930",
+    color_primary: "#202930",
     button_text: "#fff",
     active_tab: "#52697a",
 };
@@ -10,6 +10,7 @@ export const COLORS = {
 export const API_ENDPOINT: TApiEndpoints = {
     LOGIN: "Users/LoginUser",
     REGISTER: "Users/RegisterUser",
+    FORGOT_PASSWORD_SEND_MAIL: "Users/SendPasswordResetEmail",
 };
 
 export const LOGIN_INPUTS: TInputs[] = [
@@ -114,3 +115,7 @@ export const REGISTER_SCHEMA = z
         message: "Passwords don't match.",
         path: ["repeatPassword"],
     });
+
+export const FORGOT_PASSWORD_SCHEMA = z.object({
+    email: z.string().email("Email is not valid."),
+});

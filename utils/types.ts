@@ -20,13 +20,6 @@ export type TUser = {
     profilePicture: string | null;
 };
 
-export type TScreens = {
-    id: number;
-    component: string;
-    name: string;
-    icon?: string;
-};
-
 export type TPrimaryButtonProps = {
     title: string;
     onPress: () => {};

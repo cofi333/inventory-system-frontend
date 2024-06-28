@@ -19,9 +19,10 @@ const button = StyleSheet.create({
     text: {
         color: COLORS.button_text,
         textAlign: "center",
+        fontSize: 14,
     },
     background: {
-        backgroundColor: COLORS.button_primary,
+        backgroundColor: COLORS.color_primary,
         padding: 8,
         borderRadius: 4,
     },

@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
         right: 10,
         borderRadius: 10,
         zIndex: 10,
-        backgroundColor: COLORS.button_primary,
+        backgroundColor: COLORS.color_primary,
         padding: 10,
     },
     text: {

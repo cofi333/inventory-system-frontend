@@ -23,7 +23,7 @@ const WelcomeScreen = ({ navigation }) => {
                     onPress={() => navigation.navigate("Login")}
                 />
                 <PrimaryButton
-                    title="Signup"
+                    title="Sign up"
                     onPress={() => navigation.navigate("Signup")}
                 />
             </View>
