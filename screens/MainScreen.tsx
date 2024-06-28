@@ -4,9 +4,34 @@ import { COLORS } from "../utils/constants";
 import CameraScreen from "../screens/CameraScreen";
 import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import { useEffect } from "react";
+import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const MainScreen = () => {
+const MainScreen = ({ navigation }) => {
     const Tab = createBottomTabNavigator();
+
+    useEffect(() => {
+        const beforeRemoveListener = (e) => {
+            e.preventDefault();
+            Alert.alert("Logout?", "Are you sure you want to log out?", [
+                { text: "Cancel", onPress: () => {} },
+                {
+                    text: "Logout",
+                    onPress: async () => {
+                        navigation.dispatch(e.data.action);
+                        await AsyncStorage.removeItem("user");
+                    },
+                },
+            ]);
+        };
+
+        navigation.addListener("beforeRemove", beforeRemoveListener);
+
+        return () => {
+            navigation.removeListener("beforeRemove", beforeRemoveListener);
+        };
+    }, [navigation]);
 
     return (
         <Tab.Navigator

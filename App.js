@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useFocusEffect } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
     WelcomeScreen,
@@ -6,6 +6,7 @@ import {
     SignupScreen,
     MainScreen,
 } from "./screens";
+
 export default function App() {
     const Stack = createNativeStackNavigator();
 

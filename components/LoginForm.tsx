@@ -35,6 +35,7 @@ const LoginForm = ({ navigation }) => {
                         JSON.stringify(response.data)
                     );
                     navigation.navigate("Main");
+                    setIsLoading(false);
                     break;
 
                 case 401:

@@ -1,17 +1,21 @@
-import { Pressable, Text, ActivityIndicator } from "react-native";
+import { TouchableOpacity, Text, ActivityIndicator } from "react-native";
 import { COLORS } from "../utils/constants";
 import { StyleSheet } from "react-native";
 import { TPrimaryButtonProps } from "../utils/types";
 
 const PrimaryButton = ({ title, onPress, isLoading }: TPrimaryButtonProps) => {
     return (
-        <Pressable onPress={onPress} style={button.background}>
+        <TouchableOpacity
+            onPress={onPress}
+            style={button.background}
+            activeOpacity={0.8}
+        >
             {isLoading ? (
                 <ActivityIndicator size="small" color="#fff" />
             ) : (
                 <Text style={button.text}>{title}</Text>
             )}
-        </Pressable>
+        </TouchableOpacity>
     );
 };
 
