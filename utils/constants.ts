@@ -1,7 +1,7 @@
-import { TApiEndpoints, TInputs } from "./types";
+import { TApiEndpoints, TColors, TInputs } from "./types";
 import { z } from "zod";
 
-export const COLORS = {
+export const COLORS: TColors = {
     color_primary: "#202930",
     button_text: "#fff",
     active_tab: "#52697a",

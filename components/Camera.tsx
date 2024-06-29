@@ -6,8 +6,8 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 const Camera = () => {
     const [permission, requestPermission] = useCameraPermissions();
-    const [scanned, setScanned] = useState(false);
-    const [torchEnabled, setTorchEnabled] = useState(false);
+    const [scanned, setScanned] = useState<boolean>(false);
+    const [torchEnabled, setTorchEnabled] = useState<boolean>(false);
 
     if (!permission) {
         return <View />;
@@ -43,7 +43,12 @@ const Camera = () => {
                 onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
                 enableTorch={torchEnabled}
             >
-                <View style={styles.overlay} />
+                <View style={styles.overlay}>
+                    <View style={[styles.corner, styles.topLeft]} />
+                    <View style={[styles.corner, styles.topRight]} />
+                    <View style={[styles.corner, styles.bottomLeft]} />
+                    <View style={[styles.corner, styles.bottomRight]} />
+                </View>
             </CameraView>
 
             <View style={styles.camera_buttons}>
@@ -95,10 +100,36 @@ const styles = StyleSheet.create({
         height: 200,
         marginLeft: -100,
         marginTop: -100,
-        borderWidth: 2,
+    },
+    corner: {
+        position: "absolute",
+        width: 30,
+        height: 30,
         borderColor: "rgba(255, 255, 255, 0.8)",
-        backgroundColor: "rgba(0, 0, 0, 0.2)",
-        gap: 32,
+    },
+    topLeft: {
+        borderTopWidth: 3,
+        borderLeftWidth: 3,
+        top: 0,
+        left: 0,
+    },
+    topRight: {
+        borderTopWidth: 3,
+        borderRightWidth: 3,
+        top: 0,
+        right: 0,
+    },
+    bottomLeft: {
+        borderBottomWidth: 3,
+        borderLeftWidth: 3,
+        bottom: 0,
+        left: 0,
+    },
+    bottomRight: {
+        borderBottomWidth: 4,
+        borderRightWidth: 4,
+        bottom: 0,
+        right: 0,
     },
     camera_buttons: {
         position: "absolute",

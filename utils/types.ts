@@ -25,3 +25,7 @@ export type TPrimaryButtonProps = {
     onPress: () => {};
     isLoading?: boolean;
 };
+
+export type TColors = {
+    [key: string]: string;
+};

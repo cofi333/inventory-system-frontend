@@ -47,6 +47,7 @@ const LoginForm = ({ navigation }) => {
             }
         } catch (error) {
             console.log(error);
+
             setIsLoading(false);
         }
     };
