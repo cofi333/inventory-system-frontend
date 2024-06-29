@@ -1,21 +1,59 @@
-import { CameraView, useCameraPermissions } from "expo-camera";
-import { Button, StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { useState } from "react";
+import { CameraView, FlashMode, useCameraPermissions } from "expo-camera";
+import { Button, StyleSheet, Text, View, Image } from "react-native";
+import { useState, useRef } from "react";
 import { COLORS } from "../utils/constants";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { TCameraButton, TPhoto } from "../utils/types";
+import CameraButton from "./CameraButton";
 
 const Camera = () => {
     const [permission, requestPermission] = useCameraPermissions();
     const [scanned, setScanned] = useState<boolean>(false);
     const [torchEnabled, setTorchEnabled] = useState<boolean>(false);
+    const [photo, setPhoto] = useState<TPhoto>();
+    const [flashEnabled, setFlashEnabled] = useState<FlashMode>("off");
+    const cameraRef = useRef(null);
+
+    const CAMERA_BUTTONS_SCANNED: TCameraButton[] = [
+        {
+            id: 1,
+            buttonFunction: () => setScanned((prev) => !prev),
+            enableIcon: "scan-helper",
+        },
+        {
+            id: 2,
+            buttonFunction: () =>
+                setFlashEnabled((prev) => (prev === "off" ? "on" : "off")),
+            enableIcon: "lightbulb",
+            disableIcon: "lightbulb-off",
+            state: flashEnabled === "on",
+        },
+        {
+            id: 3,
+            buttonFunction: () => takePhoto(),
+            enableIcon: "camera",
+        },
+    ];
+
+    const handleBarCodeScanned = ({ data }) => {
+        setScanned(true);
+        alert(`QR code data: ${data}`);
+    };
+
+    const takePhoto = async () => {
+        if (cameraRef.current) {
+            let options = {
+                quality: 1,
+                base64: true,
+                exif: false,
+            };
+            const newPhoto = await cameraRef.current.takePictureAsync(options);
+            setPhoto(newPhoto);
+        }
+    };
 
     if (!permission) {
         return <View />;
     }
-
-    const toggleTorch = () => {
-        setTorchEnabled((prev) => !prev);
-    };
 
     if (!permission.granted) {
         return (
@@ -28,10 +66,16 @@ const Camera = () => {
         );
     }
 
-    const handleBarCodeScanned = ({ data }) => {
-        setScanned(true);
-        alert(`QR code data: ${data}`);
-    };
+    if (photo) {
+        return (
+            <View style={styles.container}>
+                <Image
+                    source={{ uri: "data:image/jpg;base64," + photo.base64 }}
+                    style={styles.preview}
+                />
+            </View>
+        );
+    }
 
     return (
         <View style={styles.container}>
@@ -42,6 +86,8 @@ const Camera = () => {
                 }}
                 onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
                 enableTorch={torchEnabled}
+                flash={flashEnabled}
+                ref={cameraRef}
             >
                 <View style={styles.overlay}>
                     <View style={[styles.corner, styles.topLeft]} />
@@ -53,31 +99,25 @@ const Camera = () => {
 
             <View style={styles.camera_buttons}>
                 {!scanned && (
-                    <TouchableOpacity onPress={toggleTorch}>
-                        {torchEnabled ? (
-                            <MaterialCommunityIcons
-                                name="lightbulb-off"
-                                size={26}
-                                color="#fff"
-                            />
-                        ) : (
-                            <MaterialCommunityIcons
-                                name="lightbulb"
-                                size={26}
-                                color="#fff"
-                            />
-                        )}
-                    </TouchableOpacity>
+                    <CameraButton
+                        buttonFunction={() => setTorchEnabled((prev) => !prev)}
+                        state={torchEnabled}
+                        enableIcon="lightbulb"
+                        disableIcon="lightbulb-off"
+                    />
                 )}
-
                 {scanned && (
-                    <TouchableOpacity onPress={() => setScanned(false)}>
-                        <MaterialCommunityIcons
-                            name="scan-helper"
-                            size={26}
-                            color="#fff"
-                        />
-                    </TouchableOpacity>
+                    <>
+                        {CAMERA_BUTTONS_SCANNED.map((button) => (
+                            <CameraButton
+                                buttonFunction={button.buttonFunction}
+                                enableIcon={button.enableIcon}
+                                disableIcon={button.disableIcon}
+                                state={button.state}
+                                key={button.id}
+                            />
+                        ))}
+                    </>
                 )}
             </View>
         </View>
@@ -144,6 +184,10 @@ const styles = StyleSheet.create({
     text: {
         color: "#fff",
         fontSize: 15,
+    },
+    preview: {
+        alignSelf: "stretch",
+        flex: 1,
     },
 });
 

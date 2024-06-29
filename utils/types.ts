@@ -1,3 +1,5 @@
+import { FlashMode } from "expo-camera";
+
 export type TApiEndpoints = {
     [key: string]: string;
 };
@@ -28,4 +30,20 @@ export type TPrimaryButtonProps = {
 
 export type TColors = {
     [key: string]: string;
+};
+
+export type TPhoto = {
+    uri: string;
+    base64?: string;
+    width: number;
+    height: number;
+    exif?: any;
+};
+
+export type TCameraButton = {
+    id: number;
+    buttonFunction: () => void;
+    disableIcon?: string;
+    enableIcon: string;
+    state?: FlashMode | boolean;
 };
