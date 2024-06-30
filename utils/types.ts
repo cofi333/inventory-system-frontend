@@ -47,3 +47,9 @@ export type TCameraButton = {
     enableIcon: string;
     state?: FlashMode | boolean;
 };
+
+export type TProductStatus = {
+    key: string;
+    value: string;
+    disabled?: boolean;
+};

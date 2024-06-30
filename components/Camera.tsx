@@ -4,6 +4,8 @@ import { useState, useRef } from "react";
 import { COLORS } from "../utils/constants";
 import { TCameraButton, TPhoto } from "../utils/types";
 import CameraButton from "./CameraButton";
+import ItemModal from "./ItemModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Camera = () => {
     const [permission, requestPermission] = useCameraPermissions();
@@ -11,6 +13,7 @@ const Camera = () => {
     const [torchEnabled, setTorchEnabled] = useState<boolean>(false);
     const [photo, setPhoto] = useState<TPhoto>();
     const [flashEnabled, setFlashEnabled] = useState<FlashMode>("off");
+    const [modalVisible, setModalVisible] = useState<boolean>(false);
     const cameraRef = useRef(null);
 
     const CAMERA_BUTTONS_SCANNED: TCameraButton[] = [
@@ -36,7 +39,17 @@ const Camera = () => {
 
     const handleBarCodeScanned = ({ data }) => {
         setScanned(true);
-        alert(`QR code data: ${data}`);
+        setModalVisible(true);
+    };
+
+    const closeItemModal = async () => {
+        await AsyncStorage.removeItem("itemForm");
+        setPhoto(null);
+        setModalVisible(false);
+    };
+
+    const onPhotoTake = () => {
+        setModalVisible(false);
     };
 
     const takePhoto = async () => {
@@ -48,6 +61,7 @@ const Camera = () => {
             };
             const newPhoto = await cameraRef.current.takePictureAsync(options);
             setPhoto(newPhoto);
+            setModalVisible(true);
         }
     };
 
@@ -66,61 +80,63 @@ const Camera = () => {
         );
     }
 
-    if (photo) {
-        return (
-            <View style={styles.container}>
-                <Image
-                    source={{ uri: "data:image/jpg;base64," + photo.base64 }}
-                    style={styles.preview}
-                />
-            </View>
-        );
-    }
-
     return (
-        <View style={styles.container}>
-            <CameraView
-                style={styles.camera}
-                barcodeScannerSettings={{
-                    barcodeTypes: ["qr"],
-                }}
-                onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
-                enableTorch={torchEnabled}
-                flash={flashEnabled}
-                ref={cameraRef}
-            >
-                <View style={styles.overlay}>
-                    <View style={[styles.corner, styles.topLeft]} />
-                    <View style={[styles.corner, styles.topRight]} />
-                    <View style={[styles.corner, styles.bottomLeft]} />
-                    <View style={[styles.corner, styles.bottomRight]} />
-                </View>
-            </CameraView>
+        <>
+            <View style={styles.container}>
+                <CameraView
+                    style={styles.camera}
+                    barcodeScannerSettings={{
+                        barcodeTypes: ["qr"],
+                    }}
+                    onBarcodeScanned={
+                        scanned ? undefined : handleBarCodeScanned
+                    }
+                    enableTorch={torchEnabled}
+                    flash={flashEnabled}
+                    ref={cameraRef}
+                >
+                    <View style={styles.overlay}>
+                        <View style={[styles.corner, styles.topLeft]} />
+                        <View style={[styles.corner, styles.topRight]} />
+                        <View style={[styles.corner, styles.bottomLeft]} />
+                        <View style={[styles.corner, styles.bottomRight]} />
+                    </View>
+                </CameraView>
 
-            <View style={styles.camera_buttons}>
-                {!scanned && (
-                    <CameraButton
-                        buttonFunction={() => setTorchEnabled((prev) => !prev)}
-                        state={torchEnabled}
-                        enableIcon="lightbulb"
-                        disableIcon="lightbulb-off"
-                    />
-                )}
-                {scanned && (
-                    <>
-                        {CAMERA_BUTTONS_SCANNED.map((button) => (
-                            <CameraButton
-                                buttonFunction={button.buttonFunction}
-                                enableIcon={button.enableIcon}
-                                disableIcon={button.disableIcon}
-                                state={button.state}
-                                key={button.id}
-                            />
-                        ))}
-                    </>
-                )}
+                <View style={styles.camera_buttons}>
+                    {!scanned && (
+                        <CameraButton
+                            buttonFunction={() =>
+                                setTorchEnabled((prev) => !prev)
+                            }
+                            state={torchEnabled}
+                            enableIcon="lightbulb"
+                            disableIcon="lightbulb-off"
+                        />
+                    )}
+                    {scanned && (
+                        <>
+                            {CAMERA_BUTTONS_SCANNED.map((button) => (
+                                <CameraButton
+                                    buttonFunction={button.buttonFunction}
+                                    enableIcon={button.enableIcon}
+                                    disableIcon={button.disableIcon}
+                                    state={button.state}
+                                    key={button.id}
+                                />
+                            ))}
+                        </>
+                    )}
+                </View>
             </View>
-        </View>
+            <ItemModal
+                visible={modalVisible}
+                onClose={closeItemModal}
+                onPhotoTake={onPhotoTake}
+                photo={photo}
+                setPhoto={setPhoto}
+            />
+        </>
     );
 };
 

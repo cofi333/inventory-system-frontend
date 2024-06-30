@@ -1,4 +1,4 @@
-import { TApiEndpoints, TColors, TInputs } from "./types";
+import { TApiEndpoints, TColors, TInputs, TProductStatus } from "./types";
 import { z } from "zod";
 
 export const COLORS: TColors = {
@@ -118,4 +118,22 @@ export const REGISTER_SCHEMA = z
 
 export const FORGOT_PASSWORD_SCHEMA = z.object({
     email: z.string().email("Email is not valid."),
+});
+
+export const PRODUCT_STATUS: TProductStatus[] = [
+    {
+        key: "1",
+        value: "Missing",
+    },
+    {
+        key: "2",
+        value: "Broken",
+    },
+];
+
+export const ITEM_FORM_SCHEMA = z.object({
+    product_comment: z.string().min(10, {
+        message: "Your comment must have at least 10 characters.",
+    }),
+    product_status: z.string(),
 });
